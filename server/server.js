@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { json } from 'express';
 import { promises as fs } from 'fs';
 import { MongoClient, ObjectId } from 'mongodb';
 import dotenv from 'dotenv';
@@ -100,12 +100,14 @@ app.get('/api/films/:id/characters', async (req, res) => {
     let collection = db.collection("films");
     //const film = await collection.find({ 'id':parseInt(id)}).toArray();
     collection = db.collection("films_characters"); 
-    const cursor = collection.find({"film_id" : parseInt(id)});
+    const films_characters = await collection.find({"film_id" : parseInt(id)}).toArray();
     collection = db.collection("characters");    
     let characters = [];
-    await cursor.forEach(doc => {
-      characters.push(db.collection.find({"id": parseInt(id)}).toArray())
-    })
+    for (const element of films_characters) {
+      const character = await db.collection("characters").find({"id": parseInt(element.character_id)}).toArray();
+      characters.push(character);
+    }
+    console.log(characters);
     res.json(characters);
   } catch (err) {
     console.error("Error:", err);
