@@ -97,9 +97,7 @@ app.get('/api/films/:id/characters', async (req, res) => {
     const { id } = req.params;
     const client = await MongoClient.connect(url);
     const db = client.db(dbName);
-    let collection = db.collection("films");
-    //const film = await collection.find({ 'id':parseInt(id)}).toArray();
-    collection = db.collection("films_characters"); 
+    let collection = db.collection("films_characters"); 
     const films_characters = await collection.find({"film_id" : parseInt(id)}).toArray();
     collection = db.collection("characters");    
     let characters = [];
@@ -107,23 +105,96 @@ app.get('/api/films/:id/characters', async (req, res) => {
       const character = await db.collection("characters").find({"id": parseInt(element.character_id)}).toArray();
       characters.push(character);
     }
-    console.log(characters);
     res.json(characters);
   } catch (err) {
     console.error("Error:", err);
-    res.status(500).send("Error collecting films: ", err);
+    res.status(500).send("Error collecting characters: ", err);
   }
 });
 
 app.get('/api/films/:id/planets', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const client = await MongoClient.connect(url);
+    const db = client.db(dbName);
+    let collection = db.collection("films_planets"); 
+    const films_characters = await collection.find({"film_id" : parseInt(id)}).toArray();
+    let planets = [];
+    for (const element of films_characters) {
+      const planet = await db.collection("planets").find({"id": parseInt(element.planet_id)}).toArray();
+      planets.push(planet);
+    }
+    res.json(planets);
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).send("Error collecting planets: ", err);
+  }
 
 });
 app.get('/api/characters/:id/films', async (req, res) => {
+  try{
+    const { id } = req.params;
+    const client = await MongoClient.connect(url);
+    const db = client.db(dbName);
+    let collection = db.collection("films_characters"); 
+    const films_characters = await collection.find({"character_id" : parseInt(id)}).toArray();
+    let films = [];
+    for (const element of films_characters) {
+      const film = await db.collection("films").find({"id": parseInt(element.film_id)}).toArray();
+      films.push(film);
+    }
+    res.json(films);
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).send("Error collecting planets: ", err);
+  }
 });
+
 app.get('/api/planets/:id/films', async (req, res) => {
+  try{
+    const { id } = req.params;
+    const client = await MongoClient.connect(url);
+    const db = client.db(dbName);
+    let collection = db.collection("films_planets"); 
+    const films_planets = await collection.find({"planet_id" : parseInt(id)}).toArray();
+    let films = [];
+    for (const element of films_planets) {
+      const film = await db.collection("films").find({"id": parseInt(element.film_id)}).toArray();
+      films.push(film);
+    }
+    res.json(films);
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).send("Error collecting planets: ", err);
+  }
 });
 app.get('/api/planets/:id/characters', async (req, res) => {
+  try{
+    const { id } = req.params;
+    const client = await MongoClient.connect(url);
+    const db = client.db(dbName);
+    let collection = db.collection("characters"); 
+    const characters = await collection.find({"homeworld" : parseInt(id)}).toArray();
+    res.json(characters);
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).send("Error collecting planets: ", err);
+  }
 });
+
+//app.get('/api/characters/:id/planets', async (req, res) => {
+  //try{
+    //const { id } = req.params;
+    //const client = await MongoClient.connect(url);
+    //const db = client.db(dbName);
+    //let collection = db.collection("planets"); 
+    //const planets = await collection.find({"homeworld" : parseInt(id)}).toArray();
+    //res.json(characters);
+  //} catch (err) {
+    //console.error("Error:", err);
+    //res.status(500).send("Error collecting planets: ", err);
+  //}
+//});
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
