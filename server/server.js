@@ -12,6 +12,7 @@ const collectionName = process.env.MONGO_DB_COLLECTION;
 
 const app = express();
 app.use(cors());
+app.use(express.static('public'))
 const PORT = 3000;
 
 app.get("/api/characters", async (req, res) => {
