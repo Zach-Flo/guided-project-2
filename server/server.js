@@ -11,7 +11,7 @@ const dbName = process.env.MONGO_DB;
 const collectionName = process.env.MONGO_DB_COLLECTION;
 
 const app = express();
-app.use(cors());
+app.use(cors())
 app.use(express.static('public'))
 const PORT = 3000;
 
