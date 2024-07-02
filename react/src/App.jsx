@@ -1,4 +1,5 @@
 import Home from "./components/Home";
+import PlanetPage from "./components/PlanetPage"
 import CharacterPage from "./components/CharacterPage";
 import React from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
@@ -10,6 +11,7 @@ function App() {
       <Routes>
         <Route exact path='/' element={<Home></Home>}></Route>
         <Route path='/characters/:id' element={<CharacterPage></CharacterPage>}></Route>
+        <Route path='/planets/:id' element={<PlanetPage></PlanetPage>}></Route>
       </Routes>
     </Router>
   )}
