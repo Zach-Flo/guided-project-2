@@ -7,7 +7,7 @@ function CharacterPage() {
 
   useEffect(() => {
     // Fetch character data based on the id
-    fetch(`http://127.0.0.1:3000/characters/${id}`)
+    fetch(`http://127.0.0.1:3000/api/characters/${id}`)
       .then(response => response.json())
       .then(data => setCharacter(data))
       .catch(error => console.error('Error fetching character:', error));
@@ -15,11 +15,14 @@ function CharacterPage() {
 
   if (!character) {
     return <div>Loading...</div>;
+  } else {
+    console.log(character)
   }
 
   return (
     <div>
-      <h1>{character.name}</h1>
+      <h1>{character['0'].name}</h1>
+      
     </div>
   );
 }
