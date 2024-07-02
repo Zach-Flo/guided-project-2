@@ -45,9 +45,9 @@ function PlanetPage() {
       <div>
         <h1>Appearing Characters:</h1>
         {characters.map((character) => (
-          <div key={character["0"].id}>
-            <Link to={`/characters/${character["0"].id}`}>
-              {character["0"].name}
+          <div key={character.id}>
+            <Link to={`/characters/${character.id}`}>
+              {character.name}
             </Link>
             <br></br>
           </div>
